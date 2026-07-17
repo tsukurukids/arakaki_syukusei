@@ -78,46 +78,34 @@ document.addEventListener('DOMContentLoaded', function () {
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            const submitButton = contactForm.querySelector('button[type="submit"]');
-            const originalButtonText = submitButton.textContent;
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value || '未入力';
+            const inquiryType = document.getElementById('inquiry-type').value;
+            const message = document.getElementById('message').value;
+
+            const subject = `【ウェブサイトお問い合わせ】${inquiryType} ${name}様より`;
             
-            // 送信中状態
-            submitButton.disabled = true;
-            submitButton.textContent = '送信中...';
+            let body = `ウェブサイトからお問い合わせがありました。\n\n`;
+            body += `--------------------------------------------------\n`;
+            body += `【お名前】: ${name} 様\n`;
+            body += `【メールアドレス】: ${email}\n`;
+            body += `【電話番号】: ${phone}\n`;
+            body += `【お問い合わせ種別】: ${inquiryType}\n`;
+            body += `【お問い合わせ内容】:\n${message}\n`;
+            body += `--------------------------------------------------`;
 
-            // ローカル環境（localhost）か本番環境（Vercel）かを判定
-            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-            const endpoint = isLocal ? 'send_mail.php' : 'https://api.web3forms.com/submit';
+            // 受信先アドレス
+            const to = 'tsukurukids4f@gmail.com';
 
-            const formData = new FormData(contactForm);
+            // mailto用のURLを生成
+            const mailtoUrl = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-            if (!isLocal) {
-                // TODO: Web3Formsのアクセスキーをここに設定してください（https://web3forms.com/ で取得可能）
-                formData.append('access_key', 'YOUR_ACCESS_KEY_HERE');
-            }
+            // メールアプリを起動
+            window.location.href = mailtoUrl;
 
-            fetch(endpoint, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Web3Formsは {success: true}、ローカルサーバーは {status: 'success'} を返します
-                if (data.success || data.status === 'success') {
-                    alert(data.message || 'お問い合わせを受け付けました。ありがとうございます。');
-                    contactForm.reset();
-                } else {
-                    alert('エラー: ' + (data.message || '送信に失敗しました。'));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('送信中にエラーが発生しました。ネットワーク接続を確認してください。');
-            })
-            .finally(() => {
-                submitButton.disabled = false;
-                submitButton.textContent = originalButtonText;
-            });
+            alert('メールアプリを起動しました。\nそのまま送信ボタンを押してメッセージを送信してください。');
+            contactForm.reset();
         });
     }
 });

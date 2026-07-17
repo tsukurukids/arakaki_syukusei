@@ -78,20 +78,36 @@ document.addEventListener('DOMContentLoaded', function () {
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            
+            // 送信中状態
+            submitButton.disabled = true;
+            submitButton.textContent = '送信中...';
 
-            const subject = '【お問い合わせ】' + name + '様より';
-            const body = 'お名前: ' + name + '\n' +
-                'メールアドレス: ' + email + '\n\n' +
-                'お問い合わせ内容:\n' + message;
+            const formData = new FormData(contactForm);
 
-            const mailtoLink = 'mailto:order@chinsuko.co.jp' +
-                '?subject=' + encodeURIComponent(subject) +
-                '&body=' + encodeURIComponent(body);
-
-            window.location.href = mailtoLink;
+            fetch('send_mail.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message);
+                    contactForm.reset();
+                } else {
+                    alert('エラー: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('送信中にエラーが発生しました。ネットワーク接続を確認してください。');
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
+            });
         });
     }
 });

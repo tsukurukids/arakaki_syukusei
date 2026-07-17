@@ -85,19 +85,29 @@ document.addEventListener('DOMContentLoaded', function () {
             submitButton.disabled = true;
             submitButton.textContent = '送信中...';
 
+            // ローカル環境（localhost）か本番環境（Vercel）かを判定
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const endpoint = isLocal ? 'send_mail.php' : 'https://api.web3forms.com/submit';
+
             const formData = new FormData(contactForm);
 
-            fetch('send_mail.php', {
+            if (!isLocal) {
+                // TODO: Web3Formsのアクセスキーをここに設定してください（https://web3forms.com/ で取得可能）
+                formData.append('access_key', 'YOUR_ACCESS_KEY_HERE');
+            }
+
+            fetch(endpoint, {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
-                if (data.status === 'success') {
-                    alert(data.message);
+                // Web3Formsは {success: true}、ローカルサーバーは {status: 'success'} を返します
+                if (data.success || data.status === 'success') {
+                    alert(data.message || 'お問い合わせを受け付けました。ありがとうございます。');
                     contactForm.reset();
                 } else {
-                    alert('エラー: ' + data.message);
+                    alert('エラー: ' + (data.message || '送信に失敗しました。'));
                 }
             })
             .catch(error => {

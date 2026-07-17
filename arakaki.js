@@ -79,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
 
             const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value || '未入力';
             const inquiryType = document.getElementById('inquiry-type').value;
             const message = document.getElementById('message').value;
@@ -89,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function () {
             let body = `ウェブサイトからお問い合わせがありました。\n\n`;
             body += `--------------------------------------------------\n`;
             body += `【お名前】: ${name} 様\n`;
-            body += `【メールアドレス】: ${email}\n`;
             body += `【電話番号】: ${phone}\n`;
             body += `【お問い合わせ種別】: ${inquiryType}\n`;
             body += `【お問い合わせ内容】:\n${message}\n`;

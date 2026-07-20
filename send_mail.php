@@ -4,7 +4,7 @@
  */
 
 // 設定
-$to = "order@chisuko.co.jp"; // 受信先メールアドレス
+$to = "a.chinsuko@gmail.com"; // 受信先メールアドレス
 $subject_prefix = "【ウェブサイトお問い合わせ】";
 
 // セキュリティ: POSTメソッド以外を拒否

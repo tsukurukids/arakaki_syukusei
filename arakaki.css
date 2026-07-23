@@ -186,3 +186,11 @@ main>section {
 .delay-400 { transition-delay: 400ms; }
 .delay-500 { transition-delay: 500ms; }
 
+/* Ensure all text is selectable and copyable on all devices */
+body, p, h1, h2, h3, h4, h5, h6, span, td, th, li, strong, a {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+}
+

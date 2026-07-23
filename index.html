@@ -112,9 +112,21 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-10 sm:mb-12 scroll-reveal">当店について</h2>
                 
-                <!-- 歴史紹介バナー画像 -->
+                <!-- 歴史紹介画像枠（画像がない場合は枠線プレースホルダーを表示） -->
                 <div class="max-w-4xl mx-auto mb-12 scroll-reveal">
-                    <img src="photos/about_us_top.png" alt="ちんすこうの歴史" class="shadow-md w-full rounded-lg">
+                    <div class="relative w-full aspect-[2.5/1] rounded-lg overflow-hidden">
+                        <!-- 画像が存在しない場合は onerror 処理で非表示になり、下のプレースホルダーを表示します -->
+                        <img src="photos/about_us_top.png" alt="ちんすこうの歴史" class="absolute inset-0 w-full h-full object-cover"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <!-- プレースホルダー枠 -->
+                        <div class="hidden absolute inset-0 w-full h-full border-2 border-dashed border-gray-400 bg-gray-50 flex-col items-center justify-center text-gray-500 p-4 rounded-lg">
+                            <svg class="w-12 h-12 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <p class="text-base sm:text-lg font-bold mb-1 text-center">ここに歴史紹介画像を配置してください</p>
+                            <p class="text-xs sm:text-sm text-gray-400 text-center">推奨サイズ: 1000px × 400px (アスペクト比 2.5:1)</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">

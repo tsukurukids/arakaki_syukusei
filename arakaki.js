@@ -10,6 +10,10 @@ document.addEventListener('DOMContentLoaded', function () {
         // Hide all sections and remove visible class
         contentSections.forEach(s => {
             s.classList.remove('active', 'visible');
+            // Reset scroll reveal classes when leaving the section
+            s.querySelectorAll('.scroll-reveal').forEach(el => {
+                el.classList.remove('reveal-active');
+            });
         });
         
         const targetSection = document.getElementById(targetId);
@@ -106,4 +110,21 @@ document.addEventListener('DOMContentLoaded', function () {
             contactForm.reset();
         });
     }
+
+    // --- Scroll Reveal Animation ---
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('reveal-active');
+            }
+        });
+    }, {
+        threshold: 0.05,
+        rootMargin: '0px 0px -40px 0px'
+    });
+
+    // Observe all scroll reveal elements
+    document.querySelectorAll('.scroll-reveal').forEach(el => {
+        revealObserver.observe(el);
+    });
 });

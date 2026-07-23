@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
             body += `--------------------------------------------------`;
 
             // 受信先アドレス
-            const to = 'a.chinsuko@gmail.com';
+            const to = 'order@chinsuko.co.jp';
 
             // mailto用のURLを生成
             const mailtoUrl = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;

@@ -92,7 +92,7 @@ const server = http.createServer((req, res) => {
     }
 
     // 静的ファイル配信
-    let filePath = path.join(PUBLIC_DIR, req.url === '/' ? 'index.html' : req.url.split('?')[0]);
+    let filePath = path.join(PUBLIC_DIR, req.url === '/' ? 'index.html' : decodeURIComponent(req.url.split('?')[0]));
     
     // ディレクトリトラバーサル防止
     if (!filePath.startsWith(PUBLIC_DIR)) {
